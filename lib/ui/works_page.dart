@@ -28,6 +28,14 @@ class _WorksPageState extends State<WorksPage> {
         SizedBox(
           height: 8,
         ),
+        RaisedButton(
+          onPressed: (){
+            Navigator.of(context).pushNamed("/work_new");
+          },
+        ),
+        SizedBox(
+          height: 8,
+        ),
         Expanded(
           child: BlocBuilder(
             bloc: worksBloc,

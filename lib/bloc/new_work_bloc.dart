@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:js';
 
 import 'package:bloc/bloc.dart';
 import 'package:client/graphql/works.dart';
@@ -21,7 +20,7 @@ class NewWorkBloc extends Bloc<NewWorkEvent, NewWorkState> {
 
     if (event is NewWork) {
       final response = await hasura.mutation(WORK_NEW, variables: {
-        "id": event.id,
+        "name": event.name,
         "description": event.description,
         "imageUrl": event.imageUrl,
         "visibility": event.visibility,
