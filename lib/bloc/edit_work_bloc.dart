@@ -19,8 +19,13 @@ class EditWorkBloc extends Bloc<EditWorkEvent, EditWorkState> {
     yield EditWorkLoading();
 
     if (event is EditWork) {
+      print(event.id);
+      print(event.description);
+      print(event.imageUrl);
+      print(event.visibility);
       final response = await hasura.mutation(WORK_EDIT, variables: {
         "id": event.id,
+        "name": event.name,
         "description": event.description,
         "imageUrl": event.imageUrl,
         "visibility": event.visibility,

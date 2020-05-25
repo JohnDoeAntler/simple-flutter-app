@@ -1,4 +1,5 @@
 import 'package:client/bloc/works_bloc.dart';
+import 'package:client/widget/work_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,23 +18,31 @@ class _WorksPageState extends State<WorksPage> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        FlatButton(
-          onPressed: () {
-            worksBloc.add(GetWorks(filter: ""));
-          },
-          child: Text("query")
+        SizedBox(
+          child: TextField(
+            onChanged: (val){
+              worksBloc.add(GetWorks(filter: "$val"));
+            },
+          ),
         ),
-        BlocBuilder(
-          bloc: worksBloc,
-          builder: (context, state) {
-            if (state is WorksLoading) {
-              return CircularProgressIndicator();
-            } else if (state is WorksLoaded) {
-              return Text(state.response.toString());
-            } else {
-              return Text("default.");
+        SizedBox(
+          height: 8,
+        ),
+        Expanded(
+          child: BlocBuilder(
+            bloc: worksBloc,
+            builder: (context, state) {
+              if (state is WorksLoading) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (state is WorksLoaded) {
+                return WorkList(arr: state.response["data"]["works"]);
+              } else {
+                return Text("Search particular work via searh bar.");
+              }
             }
-          }
+          ),
         ),
       ],
     );

@@ -1,5 +1,6 @@
 import 'package:client/bloc/user_info_bloc.dart';
 import 'package:client/bloc/users_bloc.dart';
+import 'package:client/widget/user_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,8 +13,7 @@ class UsersPage extends StatefulWidget {
 
 class _UsersPageState extends State<UsersPage> {
 
-  // UsersBloc usersBloc = UsersBloc();
-  UserInfoBloc userInfoBloc = UserInfoBloc();
+  UsersBloc usersBloc = UsersBloc();
 
   String filter = "";
 
@@ -26,26 +26,31 @@ class _UsersPageState extends State<UsersPage> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        FlatButton(
-          onPressed: () {
-
-            // usersBloc.add(GetUsers(filter: ""));
-            userInfoBloc.add(GetUserInfo(id: "auth0|5e89a066f23bc20bf0d27b58"));
-          },
-          child: Text("query"),
+        SizedBox(
+          child: TextField(
+            onChanged: (val) {
+              usersBloc.add(GetUsers(filter: "$val"));
+            },
+          ),
         ),
-        BlocBuilder(
-          // bloc: usersBloc,
-          bloc: userInfoBloc,
-          builder: (context, state) {
-            if (state is UserInfoLoading) {
-              return CircularProgressIndicator();
-            } else if (state is UserInfoLoaded) {
-              return Text(state.response.toString());
-            } else {
-              return Text("default.");
-            }
-          },
+        SizedBox(
+          height: 8,
+        ),
+        Expanded(
+            child: BlocBuilder(
+            bloc: usersBloc,
+            builder: (context, state) {
+              if (state is UsersLoading) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (state is UsersLoaded) {
+                return UserList(arr: state.response["data"]["users"]);
+              } else {
+                return Text("Search particular user via searh bar.");
+              }
+            },
+          ),
         ),
       ],
     );
@@ -55,7 +60,6 @@ class _UsersPageState extends State<UsersPage> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    // usersBloc.close();
-    userInfoBloc.close();
+    usersBloc.close();
   }
 }
