@@ -23,13 +23,18 @@ class _GuestPageState extends State<GuestPage> {
         },
         child: Scaffold(
         body: Center(
-          child: FlatButton(
-            onPressed: () {
-              authBloc.add(Login());
-            },
-            child: Text(
-              "Login"
-            ),
+          child: Column(
+            children: <Widget>[
+              Text("Reminiscence Therapy App login page"),
+              FlatButton(
+                onPressed: () {
+                  authBloc.add(Login());
+                },
+                child: Text(
+                  "Login"
+                ),
+              ),
+            ],
           ),
         ),
       ),

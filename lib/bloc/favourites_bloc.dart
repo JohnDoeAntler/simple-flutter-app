@@ -19,14 +19,12 @@ class FavouritesBloc extends Bloc<FavouritesEvent, FavouritesState> {
     yield FavouritesLoading();
 
     if (event is GetFavourites) {
-
       final response = await hasura.query(GET_FAVOURITES, variables: {
         "id": event.id,
         "filter": "%${event.filter}%",
       });
 
       yield FavouritesLoaded(response: response);
-
     } else {
       yield FavouritesInitial();
     }

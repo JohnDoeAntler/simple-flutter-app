@@ -5,9 +5,9 @@ abstract class FavouritesEvent {}
 
 class GetFavourites extends FavouritesEvent {
 
+  GetFavourites({@required this.id, @required this.filter});
+
   final id;
   final filter;
-
-  GetFavourites({@required this.id, @required this.filter});
 
 }
